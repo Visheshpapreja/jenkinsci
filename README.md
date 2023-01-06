@@ -438,7 +438,7 @@ pipeline {
 
 ![alt](https://github.com/Visheshpapreja/jenkinsci/blob/main/AnchoreREport.JPG)
 
-## Shell Script
+#Shell Script
 
 Source or come up with a text manipulation problem and solve it with at least two of
 awk, sed, tr and / or grep. Check the question below first though, maybe. [10pts]
@@ -474,7 +474,10 @@ I LIKE A MAP OF THE COUNTRY.
 GERMANY IS A QUIT COUNTRY.
 MORE PEOPLE LIVE IN THE NORTHERN PART OF THE COUNTRY.
 ```
-5. Solve the problem in question 4 using any programming language you like. [15pts]
+
+## Python
+
+Solve the problem in question 4 using any programming language you like. [15pts]
 ```
 create a simple script using commands above.
 
