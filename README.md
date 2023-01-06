@@ -438,7 +438,7 @@ pipeline {
 
 ![alt](https://github.com/Visheshpapreja/jenkinsci/blob/main/AnchoreREport.JPG)
 
-#Shell Script
+## Shell Script
 
 Source or come up with a text manipulation problem and solve it with at least two of
 awk, sed, tr and / or grep. Check the question below first though, maybe. [10pts]
@@ -498,3 +498,141 @@ rep=file1.replace("country","city")
 
 print (rep)
 
+```
+## Terraform
+
+Write a Terraform module that creates the following resources in IAM;
+
+• -  A role, with no permissions, which can be assumed by users within the same account,
+• -  A policy, allowing users / entities to assume the above role,
+• -  A group, with the above policy attached,
+• -  A user, belonging to the above group.
+All four entities should have the same name, or be similarly named in some meaningful way given the
+context e.g. prod-ci-role, prod-ci-policy, prod-ci-group, prod-ci-user; or just prod-ci. Make the suffixes
+toggleable, if you like. [25pts]
+
+```
+
+module "iam_account" {
+  source  = "terraform-aws-modules/iam/aws//modules/iam-account"
+
+  account_alias = "Production"
+
+  minimum_password_length = 37
+  require_numbers         = false
+}
+
+module "iam_assumable_role" {
+  source  = "terraform-aws-modules/iam/aws//modules/iam-assumable-role"
+
+  trusted_role_arns = [
+    "arn:aws:iam::307990089504:root",
+ 
+  ]
+
+  create_role = true
+
+  role_name         = "Prod-ci-role"
+  role_requires_mfa = true
+
+  custom_role_policy_arns = [
+    "arn:aws:iam::aws:policy/AmazonCognitoReadOnly",
+  ]
+  number_of_custom_role_policy_arns = 2
+}
+
+
+
+module "iam_assumable_roles" {
+  source  = "terraform-aws-modules/iam/aws//modules/iam-assumable-roles"
+
+  trusted_role_arns = [
+    "arn:aws:iam::307990089504:root",
+  ]
+
+  create_admin_role = true
+
+  create_poweruser_role = true
+  poweruser_role_name   = "prod-dev"
+
+  create_readonly_role       = true
+  readonly_role_requires_mfa = false
+}
+
+
+
+module "iam_group_with_assumable_roles_policy" {
+  source  = "terraform-aws-modules/iam/aws//modules/iam-group-with-assumable-roles-policy"
+
+  name = "prod-readonly"
+
+  assumable_roles = [
+    "arn:aws:iam::835367859855:role/readonly"  # these roles can be created using `iam_assumable_roles` submodule
+  ]
+
+  group_users = [
+    "user1",
+    "user2"
+  ]
+}
+
+
+module "iam_group_with_policies" {
+  source  = "terraform-aws-modules/iam/aws//modules/iam-group-with-policies"
+
+  name = "prodadmins"
+
+  group_users = [
+    "user1",
+    "user2"
+  ]
+
+  attach_iam_self_management_policy = true
+
+  custom_group_policy_arns = [
+    "arn:aws:iam::aws:policy/AdministratorAccess",
+  ]
+
+  custom_group_policies = [
+    {
+      name   = "AllowS3Listing"
+      policy = data.aws_iam_policy_document.sample.json
+    }
+  ]
+}
+
+
+module "iam_policy" {
+  source  = "terraform-aws-modules/iam/aws//modules/iam-policy"
+
+  name        = "prod-co"
+  path        = ""
+  description = "prod-ci-policy"
+
+  policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": [
+        "ec2:Describe*"
+      ],
+      "Effect": "Allow",
+      "Resource": "*"
+    }
+  ]
+}
+EOF
+}
+
+module "iam_user" {
+  source  = "terraform-aws-modules/iam/aws//modules/iam-user"
+
+  name          = "prod-user"
+  force_destroy = true
+
+  pgp_key = "keybase:test"
+
+  password_reset_required = false
+}
+```
