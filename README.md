@@ -438,4 +438,60 @@ pipeline {
 
 ![alt](https://github.com/Visheshpapreja/jenkinsci/blob/main/AnchoreREport.JPG)
 
+#Shell Script
+
+Source or come up with a text manipulation problem and solve it with at least two of
+awk, sed, tr and / or grep. Check the question below first though, maybe. [10pts]
+```
+we create a text.csv file. Before executing the script file data below.
+
+[ec2-user@ip-172-31-42-28 ~]$ cat text.csv
+This is a beautiful city.
+London is a Metropolitan city.
+I like a map of the city.
+Germany is a quit city.
+More people live in the northern part of the country.
+
+we created a script name of text.sh which includes the below command.
+sed -i 's/city/country/g' text.csv
+
+after the script execution, city was replaced by country as shown below.
+[ec2-user@ip-172-31-42-28 ~]$ cat text.csv
+This is a beautiful country.
+London is a Metropolitan country.
+I like a map of the country.
+Germany is a quit country.
+More people live in the northern part of the country.
+
+we executed the below command then conveted Lower case to Upper case 
+and result was stored in output.csv file.
+cat text.csv | tr [a-z] [A-Z] >> output.csv
+
+[ec2-user@ip-172-31-42-28 ~]$ cat output.csv
+THIS IS A BEAUTIFUL COUNTRY.
+LONDON IS A METROPOLITAN COUNTRY.
+I LIKE A MAP OF THE COUNTRY.
+GERMANY IS A QUIT COUNTRY.
+MORE PEOPLE LIVE IN THE NORTHERN PART OF THE COUNTRY.
+```
+5. Solve the problem in question 4 using any programming language you like. [15pts]
+```
+create a simple script using commands above.
+
+file1=open ("text.csv","r")
+print(file1.read())
+
+file2=open("text.csv","r")
+file3=file2.read()
+
+print (file3.upper())
+
+file1.close()
+file2.close()
+
+file4=open ("text.csv","r")
+file1=file4.read()
+rep=file1.replace("country","city")
+
+print (rep)
 
