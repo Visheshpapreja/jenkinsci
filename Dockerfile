@@ -7,7 +7,6 @@ COPY . /var/www/nginx-distroless
 RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections
 
 # Install necessary libraries and dependency to compile nginx.
-# Install necessary libraries and dependency to compile nginx.
 RUN apt-get update && apt-get install -y gcc make libc-dev libxslt1-dev libxml2-dev zlib1g-dev libpcre3-dev libbz2-dev libssl-dev autoconf wget lsb-release apt-transport-https ca-certificates
 
 # Download nginx version 1.19.0. You can try other version too.
@@ -37,6 +36,9 @@ RUN mkdir -p /var/cache/nginx/ && mkdir -p /var/lib/nginx && mkdir -p /etc/nginx
 
 # Grab the distroless static container.
 FROM gcr.io/distroless/static
+#FROM gcr.io/distroless/static:sha256-16a5cb5bbbb9e4f6b733f4e3f66dab7259c03466f0f8ae31083d6b1f85f28864.sig
+LABEL Author="Ganesh Ghube"
+USER  me
 
 # Set the container timezone as UTC.
 ENV TZ="UTC"
@@ -65,4 +67,4 @@ COPY --from=build /lib/x86_64-linux-gnu/libnss_files.so.2 /lib/x86_64-linux-gnu/
 EXPOSE 80
 STOPSIGNAL SIGTERM
 ENTRYPOINT ["nginx", "-g", "daemon off;"]
-HEALTHCHECK CMD curl --fail http://localhost:80/ || exit 1
+HEALTHCHECK CMD curl --fail http://localhost:80 || exit 1
