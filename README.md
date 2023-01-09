@@ -512,7 +512,17 @@ context e.g. prod-ci-role, prod-ci-policy, prod-ci-group, prod-ci-user; or just 
 toggleable, if you like. [25pts]
 
 ```
+## Terraform 
 
+Command to create all users
+
+git clone https://github.com/Visheshpapreja/jenkinsci.git 
+
+terraform init
+
+terraform plan --var="dev.tfvar"
+
+terraform apply --var="dev.tfvar"
 
 
 ```
