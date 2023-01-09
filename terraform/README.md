@@ -4,9 +4,9 @@ Command to create all users
 
 terraform init
 
-terraform plan --var="dev.tvar"
+terraform plan --var="dev.tfvar"
 
-terraform apply --var="dev.tvar"
+terraform apply --var="dev.tfvar"
 
 
 
