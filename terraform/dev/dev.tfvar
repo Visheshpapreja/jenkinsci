@@ -1,6 +1,6 @@
 
 project               = "ProjectX"
-environment           = "dev"
+environment           = "prodci"
 
 
 user_names = ["produser1", "produser2", "produser3"]
