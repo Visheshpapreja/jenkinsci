@@ -209,7 +209,7 @@ No Vulnerability will be find in above image
 
 #################################################################################
 
-## Kuberneties
+## Kubernetes
 
 Write a Kubernetes StatefulSet to run the above, using persistent volume claims and
 resource limits. [15 pts]
